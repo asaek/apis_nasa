@@ -5,37 +5,58 @@ import '../../../config/constants/environments.dart';
 import '../../../domain/data_sources/data_sources.dart';
 import '../../../domain/entities/entities.dart';
 import '../../../domain/errors/errors.dart';
+import '../../mappers/ImageDayEntitie_to_ImageDayModel_mapper.dart';
 
 class GetOneImageDayDataSourceImpl implements GetOneImageDayDataSource {
   @override
-  Future<ImageDayEntitie> getOneImageDay() async {
+  Future<List<ImageDayEntitie>> getOneImageDay(
+      {required int cantidadImages}) async {
     final Dio dio = Dio(
       BaseOptions(
         baseUrl: 'https://api.nasa.gov/planetary/apod',
         queryParameters: {
           'api_key': Environment.nasaDbKey,
+          'count': cantidadImages,
         },
       ),
     );
 
     try {
+      List<ImageDayEntitie> imagesDayEntitie = [];
       final Response<dynamic> response = await dio.get('');
 
-      if (response.statusCode == 200) {
-        final ImageDayModel imageDayModel =
-            ImageDayModel.fromJson(response.data);
+      print(response.data);
 
-        return ImageDayEntitie(
-          title: imageDayModel.title,
-          url: imageDayModel.url,
-          error: null,
-          date: imageDayModel.date,
-          explanation: imageDayModel.explanation,
-          hdurl: imageDayModel.hdurl,
-          mediaType: imageDayModel.mediaType,
-        );
+      if (response.statusCode == 200) {
+        print('Peticion correcta');
+        final List<ImageDayModel> imagesDayModel = (response.data as List)
+            .map((e) => ImageDayModel.fromJson(e))
+            .toList();
+
+        print('Paso el primero mapeo');
+        for (final ImageDayModel imageDayModel in imagesDayModel) {
+          imagesDayEntitie.add(mapperImageDayEntitieToImageDayModel(
+              imageDayModel: imageDayModel));
+        }
+        print('Paso el segundo mapeo');
+
+        return imagesDayEntitie;
       } else {
-        return ImageDayEntitie(
+        return [
+          ImageDayEntitie(
+            title: null,
+            url: null,
+            error: Errores.errorServidor,
+            date: null,
+            explanation: null,
+            hdurl: null,
+            mediaType: null,
+          ),
+        ];
+      }
+    } catch (e) {
+      return [
+        ImageDayEntitie(
           title: null,
           url: null,
           error: Errores.errorServidor,
@@ -43,18 +64,8 @@ class GetOneImageDayDataSourceImpl implements GetOneImageDayDataSource {
           explanation: null,
           hdurl: null,
           mediaType: null,
-        );
-      }
-    } catch (e) {
-      return ImageDayEntitie(
-        title: null,
-        url: null,
-        error: Errores.errorServidor,
-        date: null,
-        explanation: null,
-        hdurl: null,
-        mediaType: null,
-      );
+        )
+      ];
     }
   }
 }

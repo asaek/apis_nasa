@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 class ImageDayModel {
-  final String copyright;
+  final String? copyright;
   final DateTime date;
   final String explanation;
-  final String hdurl;
+  final String? hdurl;
   final String mediaType;
   final String serviceVersion;
   final String title;

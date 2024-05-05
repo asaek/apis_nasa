@@ -1,5 +1,6 @@
 import 'package:get_it/get_it.dart';
 import 'package:nasa_apis/presentation/bloc/blocs.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../data/data_sources_impl/get_one_image_day_datasource_impl/get_one_image_day_datasource_impl.dart';
 import '../../data/repositories_impl/get_image_day_repositorie_impl/get_image_day_repositorie_impl.dart';
@@ -32,6 +33,21 @@ void setupLocator() {
   locator.registerLazySingleton<ImagesMenuPrincipalCubit>(
     () => ImagesMenuPrincipalCubit(
       getImageDayUseCase: locator<GetImageDayUseCase>(),
+    ),
+  );
+
+  locator.registerLazySingleton<TextMaxLinesCubit>(() => TextMaxLinesCubit());
+  locator.registerLazySingleton<MoreTextCubit>(() => MoreTextCubit());
+
+  //? Services
+  //? Controller
+  locator.registerFactoryParam<YoutubePlayerController, String, void>(
+    (videoId, _) => YoutubePlayerController(
+      initialVideoId: videoId,
+      flags: const YoutubePlayerFlags(
+        autoPlay: true,
+        mute: true,
+      ),
     ),
   );
 }

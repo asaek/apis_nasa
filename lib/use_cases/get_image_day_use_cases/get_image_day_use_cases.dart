@@ -3,7 +3,7 @@ import 'package:nasa_apis/domain/repositories/get_image_day_repositorie/get_imag
 import '../../domain/entities/entities.dart';
 
 sealed class GetImageDayUseCase {
-  Future<ImageDayEntitie> callGetOneImage();
+  Future<List<ImageDayEntitie>> callGetOneImage({required int cantidadImages});
 }
 
 class GetImageDayUseCaseImpl implements GetImageDayUseCase {
@@ -12,6 +12,7 @@ class GetImageDayUseCaseImpl implements GetImageDayUseCase {
   GetImageDayUseCaseImpl({required this.getOneImageDayRepository});
 
   @override
-  Future<ImageDayEntitie> callGetOneImage() =>
-      getOneImageDayRepository.getImageDay();
+  Future<List<ImageDayEntitie>> callGetOneImage(
+          {required int cantidadImages}) =>
+      getOneImageDayRepository.getImageDay(cantidadImages: cantidadImages);
 }

@@ -11,21 +11,37 @@ class ImagesMenuPrincipalCubit extends Cubit<ImagesMenuPrincipalState> {
   ImagesMenuPrincipalCubit({required this.getImageDayUseCase})
       : super(ImagesMenuPrincipalInitial());
 
-  void _loadImages(List<ImageDayEntitie> images) {
-    emit(ImagesMenuPrincipalLoaded(images: images));
-  }
-
   void _loading() {
     emit(ImagesMenuPrincipalLoading());
   }
 
-  void cargarImagenes() async {
+  void _emitLoadImages(List<ImageDayEntitie> images) {
+    emit(ImagesMenuPrincipalLoaded(images: images));
+  }
+
+  void loadImagesWithLoading({required int cantidadImages}) async {
     _loading();
+    final List<ImageDayEntitie> imagesNew = await getImageDayUseCase
+        .callGetOneImage(cantidadImages: cantidadImages);
 
-    final ImageDayEntitie images = await getImageDayUseCase.callGetOneImage();
+    _emitLoadImages(imagesNew);
+  }
 
-    print(images);
+  void loadImagesWithoutLoading({required int cantidadImages}) async {
+    final List<ImageDayEntitie> imagesNew = await getImageDayUseCase
+        .callGetOneImage(cantidadImages: cantidadImages);
 
-    // _loadImages(images);
+    if (state is ImagesMenuPrincipalLoaded) {
+      final loadState = state as ImagesMenuPrincipalLoaded;
+      final List<ImageDayEntitie> totalImages = loadState.images + imagesNew;
+      _emitLoadImages(totalImages);
+      return;
+    }
+
+    _emitLoadImages(imagesNew);
+  }
+
+  void deleteImages() {
+    emit(ImagesMenuPrincipalInitial());
   }
 }

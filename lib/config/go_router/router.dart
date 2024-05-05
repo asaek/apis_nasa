@@ -10,5 +10,10 @@ final appRouter = GoRouter(
       path: '/',
       builder: (context, state) => const HomePage(),
     ),
+    GoRoute(
+      name: ApiUnageDayPage.routerName,
+      path: '/ApiUnageDayPage',
+      builder: (context, state) => const ApiUnageDayPage(),
+    ),
   ],
 );

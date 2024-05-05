@@ -19,3 +19,14 @@ final class ImagesMenuPrincipalLoaded extends ImagesMenuPrincipalState {
   @override
   List<Object> get props => [images];
 }
+
+// final class ImageLoadedOneMoreOna extends ImagesMenuPrincipalState {
+//   final List<ImageDayEntitie> imagesOneMoreOne;
+
+//   const ImageLoadedOneMoreOna({required this.imagesOneMoreOne});
+
+
+
+//   @override
+//   List<Object> get props => [imagesOneMoreOne];
+// }

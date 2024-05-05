@@ -1,5 +1,5 @@
 import '../../entities/entities.dart';
 
 abstract class GetOneImageDayDataSource {
-  Future<ImageDayEntitie> getOneImageDay();
+  Future<List<ImageDayEntitie>> getOneImageDay({required int cantidadImages});
 }

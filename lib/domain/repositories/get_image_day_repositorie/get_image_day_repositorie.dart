@@ -1,5 +1,5 @@
 import '../../entities/entities.dart';
 
 abstract class GetImageDayRepositorie {
-  Future<ImageDayEntitie> getImageDay();
+  Future<List<ImageDayEntitie>> getImageDay({required int cantidadImages});
 }

@@ -9,6 +9,6 @@ class GetImageDayRepositorieImpl implements GetImageDayRepositorie {
   GetImageDayRepositorieImpl({required this.getOneImageDayDataSource});
 
   @override
-  Future<ImageDayEntitie> getImageDay() =>
-      getOneImageDayDataSource.getOneImageDay();
+  Future<List<ImageDayEntitie>> getImageDay({required int cantidadImages}) =>
+      getOneImageDayDataSource.getOneImageDay(cantidadImages: cantidadImages);
 }

@@ -24,6 +24,12 @@ class BlocsProviders extends StatelessWidget {
         BlocProvider<ImagesMenuPrincipalCubit>(
           create: (BuildContext context) => locator<ImagesMenuPrincipalCubit>(),
         ),
+        BlocProvider<TextMaxLinesCubit>(
+          create: (BuildContext context) => locator<TextMaxLinesCubit>(),
+        ),
+        BlocProvider<MoreTextCubit>(
+          create: (BuildContext context) => locator<MoreTextCubit>(),
+        ),
       ],
       child: const MyApp(),
     );
