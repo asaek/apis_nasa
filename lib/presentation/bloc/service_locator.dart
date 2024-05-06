@@ -28,7 +28,8 @@ void setupLocator() {
   );
 
   //? Blocs
-
+  locator.registerLazySingleton<MenuPrincipalBloc>(() =>
+      MenuPrincipalBloc(getImageDayUseCase: locator<GetImageDayUseCase>()));
   //? Cubits
   locator.registerLazySingleton<ImagesMenuPrincipalCubit>(
     () => ImagesMenuPrincipalCubit(

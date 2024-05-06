@@ -25,20 +25,20 @@ class GetOneImageDayDataSourceImpl implements GetOneImageDayDataSource {
       List<ImageDayEntitie> imagesDayEntitie = [];
       final Response<dynamic> response = await dio.get('');
 
-      print(response.data);
+      // print(response.data);
 
       if (response.statusCode == 200) {
-        print('Peticion correcta');
+        // print('Peticion correcta');
         final List<ImageDayModel> imagesDayModel = (response.data as List)
             .map((e) => ImageDayModel.fromJson(e))
             .toList();
 
-        print('Paso el primero mapeo');
+        // print('Paso el primero mapeo');
         for (final ImageDayModel imageDayModel in imagesDayModel) {
           imagesDayEntitie.add(mapperImageDayEntitieToImageDayModel(
               imageDayModel: imageDayModel));
         }
-        print('Paso el segundo mapeo');
+        // print('Paso el segundo mapeo');
 
         return imagesDayEntitie;
       } else {

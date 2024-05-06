@@ -40,8 +40,4 @@ class ImagesMenuPrincipalCubit extends Cubit<ImagesMenuPrincipalState> {
 
     _emitLoadImages(imagesNew);
   }
-
-  void deleteImages() {
-    emit(ImagesMenuPrincipalInitial());
-  }
 }

@@ -30,6 +30,9 @@ class BlocsProviders extends StatelessWidget {
         BlocProvider<MoreTextCubit>(
           create: (BuildContext context) => locator<MoreTextCubit>(),
         ),
+        BlocProvider<MenuPrincipalBloc>(
+          create: (BuildContext context) => locator<MenuPrincipalBloc>(),
+        ),
       ],
       child: const MyApp(),
     );

@@ -15,5 +15,10 @@ final appRouter = GoRouter(
       path: '/ApiUnageDayPage',
       builder: (context, state) => const ApiUnageDayPage(),
     ),
+    GoRoute(
+      name: EpicImage.routerName,
+      path: '/EpicImage',
+      builder: (context, state) => const EpicImage(),
+    ),
   ],
 );

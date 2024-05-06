@@ -8,7 +8,15 @@ import '../pages.dart';
 
 List<String> titulos = [
   "APOD",
-  "Imagen 2",
+  "EPIC",
+  "Imagen 3",
+  "Imagen 4",
+  "Imagen 5",
+];
+
+List<String> rutas = [
+  ApiUnageDayPage.routerName,
+  EpicImage.routerName,
   "Imagen 3",
   "Imagen 4",
   "Imagen 5",
@@ -42,23 +50,21 @@ class _Listview extends StatefulWidget {
 class _ListviewState extends State<_Listview> {
   @override
   void initState() {
-    context
-        .read<ImagesMenuPrincipalCubit>()
-        .loadImagesWithLoading(cantidadImages: 5);
+    context.read<MenuPrincipalBloc>().loadMenuImagesPrincipal();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: BlocBuilder<ImagesMenuPrincipalCubit, ImagesMenuPrincipalState>(
+      child: BlocBuilder<MenuPrincipalBloc, MenuPrincipalState>(
         builder: (context, state) {
-          if (state is ImagesMenuPrincipalLoading) {
+          if (state is MenuPrincipalLoading) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
-          if (state is ImagesMenuPrincipalLoaded) {
+          if (state is MenuPrincipalLoaded) {
             return ListView.builder(
               padding: EdgeInsets.zero,
               itemCount: state.images.length,
@@ -94,31 +100,32 @@ class _ItemList extends StatelessWidget {
         Colors.transparent.withOpacity(0.1),
         BlendMode.softLight,
       ),
-      child: Container(
-        height: 200,
-        margin: const EdgeInsets.all(5),
-        alignment: Alignment.centerLeft,
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image: (image.url == null)
-                ? const AssetImage('assets/images/no-image.jpg')
-                    as ImageProvider
-                : NetworkImage(image.url!),
-            fit: BoxFit.cover,
-            alignment: Alignment.center,
+      child: InkWell(
+        onTap: () => context.push(rutas[index]),
+        child: Container(
+          height: 200,
+          margin: const EdgeInsets.all(5),
+          alignment: Alignment.centerLeft,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            image: DecorationImage(
+              image: (image.url == null)
+                  ? const AssetImage('assets/images/no-image.jpg')
+                      as ImageProvider
+                  : NetworkImage(image.url!),
+              fit: BoxFit.cover,
+              alignment: Alignment.center,
+            ),
           ),
-        ),
-        child: ListTile(
-          onTap: () {
-            context.push(ApiUnageDayPage.routerName);
-          },
-          title: Text(
-            titulos[index],
-            style: Theme.of(context).textTheme.titleMedium!.merge(
-                  const TextStyle(
-                    color: Colors.white,
+          child: ListTile(
+            title: Text(
+              titulos[index],
+              style: Theme.of(context).textTheme.displaySmall!.merge(
+                    const TextStyle(
+                      color: Colors.white,
+                    ),
                   ),
-                ),
+            ),
           ),
         ),
       ),

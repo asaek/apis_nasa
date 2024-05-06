@@ -20,20 +20,9 @@ class _ApiUnageDayPageState extends State<ApiUnageDayPage> {
 
   @override
   void initState() {
-    context.read<ImagesMenuPrincipalCubit>().deleteImages();
-
     context
         .read<ImagesMenuPrincipalCubit>()
         .loadImagesWithLoading(cantidadImages: 6);
-
-    // _pageController.addListener(() {
-    //   if (_pageController.position.pixels ==
-    //       _pageController.position.maxScrollExtent) {
-    //     context
-    //         .read<ImagesMenuPrincipalCubit>()
-    //         .cargarVariasImagenes(cantidadImages: 2);
-    //   }
-    // });
 
     super.initState();
   }
@@ -93,6 +82,33 @@ class _ApiUnageDayPageState extends State<ApiUnageDayPage> {
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.end,
                               children: [
+                                Row(
+                                  children: [
+                                    SafeArea(
+                                      bottom: false,
+                                      child: IconButton(
+                                        icon: Material(
+                                          color: Colors.grey.withOpacity(0.3),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: const Padding(
+                                            padding: EdgeInsets.all(4.0),
+                                            child: Icon(
+                                              Icons.arrow_back_ios_new_rounded,
+                                              color: Colors.white,
+                                              size: 40,
+                                            ),
+                                          ),
+                                        ),
+                                        onPressed: () {
+                                          // Usualmente, se usa Navigator.pop en apps con navegación.
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Spacer(),
                                 _Titulo(images[index].title!),
                                 const SizedBox(height: 15),
                                 _Parrafo(images[index].explanation!),
