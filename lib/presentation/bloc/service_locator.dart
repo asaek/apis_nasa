@@ -2,11 +2,14 @@ import 'package:get_it/get_it.dart';
 import 'package:nasa_apis/presentation/bloc/blocs.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
+import '../../data/data_sources_impl/get_epic_image_datasource_impl/get_epic_image_datasource_impl.dart';
 import '../../data/data_sources_impl/get_one_image_day_datasource_impl/get_one_image_day_datasource_impl.dart';
+import '../../data/repositories_impl/get_epic_images_day_repositorie_impl/get_epic_images_day_repositorie_impl.dart';
 import '../../data/repositories_impl/get_image_day_repositorie_impl/get_image_day_repositorie_impl.dart';
 import '../../domain/data_sources/data_sources.dart';
 import '../../domain/repositories/repositories.dart';
 import '../../use_cases/use_case.dart';
+import 'epic_image_bloc/epic_image_bloc.dart';
 
 GetIt locator = GetIt.instance;
 
@@ -15,10 +18,17 @@ void setupLocator() {
   locator.registerLazySingleton<GetOneImageDayDataSource>(
       () => GetOneImageDayDataSourceImpl());
 
+  locator.registerLazySingleton<GetEpicImageDataSource>(
+      () => GetEpicImageDataSourceImpl());
+
   //? Repositories
   locator.registerLazySingleton<GetImageDayRepositorie>(() =>
       GetImageDayRepositorieImpl(
           getOneImageDayDataSource: locator<GetOneImageDayDataSource>()));
+
+  locator.registerLazySingleton<GetEpicImagesDayRepositorie>(() =>
+      GetEpicImagesDayRepositorieImpl(
+          datasource: locator<GetEpicImageDataSource>()));
 
   //? UseCases
   locator.registerLazySingleton<GetImageDayUseCase>(
@@ -27,9 +37,19 @@ void setupLocator() {
     ),
   );
 
+  locator.registerLazySingleton<GetEpicImageUseCase>(
+    () => GetEpicImageUseCaseImpl(
+      getEpicImageRepository: locator<GetEpicImagesDayRepositorie>(),
+    ),
+  );
+
   //? Blocs
   locator.registerLazySingleton<MenuPrincipalBloc>(() =>
       MenuPrincipalBloc(getImageDayUseCase: locator<GetImageDayUseCase>()));
+
+  locator.registerLazySingleton<EpicImageBloc>(
+      () => EpicImageBloc(getEpicImageUseCase: locator<GetEpicImageUseCase>()));
+
   //? Cubits
   locator.registerLazySingleton<ImagesMenuPrincipalCubit>(
     () => ImagesMenuPrincipalCubit(

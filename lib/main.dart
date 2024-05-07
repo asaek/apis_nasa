@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:nasa_apis/config/go_router/router.dart';
 import 'package:nasa_apis/presentation/bloc/blocs.dart';
 
+import 'presentation/bloc/epic_image_bloc/epic_image_bloc.dart';
 import 'presentation/bloc/service_locator.dart';
 
 void main() async {
@@ -32,6 +33,9 @@ class BlocsProviders extends StatelessWidget {
         ),
         BlocProvider<MenuPrincipalBloc>(
           create: (BuildContext context) => locator<MenuPrincipalBloc>(),
+        ),
+        BlocProvider<EpicImageBloc>(
+          create: (BuildContext context) => locator<EpicImageBloc>(),
         ),
       ],
       child: const MyApp(),

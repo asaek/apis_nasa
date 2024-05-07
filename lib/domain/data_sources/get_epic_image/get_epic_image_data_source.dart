@@ -1,5 +1,5 @@
 import '../../entities/entities.dart';
 
 abstract class GetEpicImageDataSource {
-  Future<EpicImageEntity> getEpicImage();
+  Future<List<EpicImageEntity>> getEpicImage({required DateTime dia});
 }
