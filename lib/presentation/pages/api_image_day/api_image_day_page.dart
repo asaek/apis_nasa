@@ -5,6 +5,7 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../../domain/entities/entities.dart';
 import '../../bloc/blocs.dart';
+import '../../widgets/widgets.dart';
 
 class ApiUnageDayPage extends StatefulWidget {
   static const routerName = '/ApiUnageDayPage';
@@ -86,24 +87,9 @@ class _ApiUnageDayPageState extends State<ApiUnageDayPage> {
                                   children: [
                                     SafeArea(
                                       bottom: false,
-                                      child: IconButton(
-                                        icon: Material(
-                                          color: Colors.grey.withOpacity(0.3),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          child: const Padding(
-                                            padding: EdgeInsets.all(4.0),
-                                            child: Icon(
-                                              Icons.arrow_back_ios_new_rounded,
-                                              color: Colors.white,
-                                              size: 40,
-                                            ),
-                                          ),
-                                        ),
-                                        onPressed: () {
-                                          // Usualmente, se usa Navigator.pop en apps con navegación.
-                                          Navigator.pop(context);
-                                        },
+                                      child: BackButtonPersonalizado(
+                                        onBackPress: () =>
+                                            Navigator.pop(context),
                                       ),
                                     ),
                                   ],

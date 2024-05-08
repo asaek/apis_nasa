@@ -9,7 +9,7 @@ import '../pages.dart';
 List<String> titulos = [
   "APOD",
   "EPIC",
-  "Imagen 3",
+  "Search",
   "Imagen 4",
   "Imagen 5",
 ];
@@ -17,7 +17,7 @@ List<String> titulos = [
 List<String> rutas = [
   ApiUnageDayPage.routerName,
   EpicImage.routerName,
-  "Imagen 3",
+  SearchPage.routerName,
   "Imagen 4",
   "Imagen 5",
 ];

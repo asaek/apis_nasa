@@ -13,6 +13,7 @@ class EpicImageBloc extends Bloc<EpicImageEvent, EpicImageState> {
   final GetEpicImageUseCase getEpicImageUseCase;
   late List<EpicImageEntity> epicImageGuardadas;
   int index = 0;
+  bool isRUnning = true;
 
   EpicImageBloc({required this.getEpicImageUseCase})
       : super(EpicImageInicial()) {
@@ -25,37 +26,29 @@ class EpicImageBloc extends Bloc<EpicImageEvent, EpicImageState> {
     final List<EpicImageEntity> epicImage =
         await getEpicImageUseCase.callGetEpicImage(day: event.day);
 
-    print(epicImage);
-
     epicImageGuardadas = List<EpicImageEntity>.from(epicImage);
 
-    while (true) {
+    while (isRUnning) {
       await Future.delayed(const Duration(seconds: 2));
       index = (index + 1) % epicImageGuardadas.length;
-      print(index);
+      // print(index);
       emit(EpicImageLoaded(epicImage: epicImageGuardadas[index]));
     }
 
-    // _startImageAnimation(emit: emit, lneht: epicImageGuardadas.length);
+    // Timer.periodic(const Duration(seconds: 2), (timer) {
+    //   index = (index + 1) % epicImageGuardadas.length;
+    //   emit(EpicImageLoaded(epicImage: epicImageGuardadas[index]));
+    // });
   }
-
-  // void _startImageAnimation(
-  //     {required int lneht, required Emitter<EpicImageState> emit}) async {
-  //   Timer.periodic(const Duration(seconds: 2), (timer) {
-  //     index = (index + 1) % lneht;
-  //     emit(EpicImageLoaded(epicImage: epicImageGuardadas[index]));
-  //   });
-
-  //   // while (true) {
-  //   //   await Future.delayed(const Duration(seconds: 2));
-  //   //   index = (index + 1) % lneht;
-  //   //   emit(EpicImageLoaded(epicImage: epicImageGuardadas[index]));
-  //   // }
-  // }
 
   void reseteoListasIndex() {
     index = 0;
     epicImageGuardadas = [];
+    isRUnning = true;
+  }
+
+  void stopSlider() {
+    isRUnning = false;
   }
 
   //? llamadas a eventos

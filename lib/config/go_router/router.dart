@@ -20,5 +20,10 @@ final appRouter = GoRouter(
       path: '/EpicImage',
       builder: (context, state) => const EpicImage(),
     ),
+    GoRoute(
+      name: SearchPage.routerName,
+      path: '/SearchPage',
+      builder: (context, state) => const SearchPage(),
+    ),
   ],
 );

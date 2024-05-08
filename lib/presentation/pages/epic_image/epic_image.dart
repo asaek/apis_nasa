@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../bloc/epic_image_bloc/epic_image_bloc.dart';
+import '../../widgets/widgets.dart';
 
 class EpicImage extends StatelessWidget {
   static String routerName = '/EpicImage';
@@ -24,7 +25,7 @@ class EpicImage extends StatelessWidget {
 
             if (state is EpicImageLoaded) {
               return AnimatedSwitcher(
-                duration: const Duration(milliseconds: 500),
+                duration: const Duration(milliseconds: 300),
                 transitionBuilder: (Widget child, Animation<double> animation) {
                   return FadeTransition(
                     opacity: animation,
@@ -37,6 +38,27 @@ class EpicImage extends StatelessWidget {
                   child: Image.network(
                     state.epicImage.imageURLComplete!,
                     fit: BoxFit.cover,
+                    loadingBuilder: (BuildContext context, Widget child,
+                        ImageChunkEvent? loadingProgress) {
+                      if (loadingProgress == null) {
+                        return child; // Imagen cargada
+                      }
+                      return Center(
+                        child: CircularProgressIndicator(
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  loadingProgress.expectedTotalBytes!
+                              : null,
+                        ),
+                      );
+                    },
+                    errorBuilder: (BuildContext context, Object exception,
+                        StackTrace? stackTrace) {
+                      return const Center(
+                        child:
+                            Text('No se pudo cargar la imagen de la Direccion'),
+                      ); // En caso de error
+                    },
                   ),
                 ),
               );
@@ -47,14 +69,29 @@ class EpicImage extends StatelessWidget {
             );
           },
         ),
-        Align(
-          alignment: Alignment.topCenter,
-          child: SafeArea(
-            bottom: false,
-            child: ElevatedButton(
-              onPressed: () => _selectDate(context),
-              child: const Text('Seleccionar Fecha'),
-            ),
+        SafeArea(
+          bottom: false,
+          child: Row(
+            children: [
+              BackButtonPersonalizado(
+                onBackPress: () {
+                  print('Presionado');
+                  // context.read<EpicImageBloc>().reseteoListasIndex();
+                  context.read<EpicImageBloc>().stopSlider();
+                  Navigator.pop(context);
+                },
+              ),
+              const Spacer(
+                flex: 2,
+              ),
+              ElevatedButton(
+                onPressed: () => _selectDate(context),
+                child: const Text('Seleccionar Fecha'),
+              ),
+              const Spacer(
+                flex: 5,
+              ),
+            ],
           ),
         ),
       ],
