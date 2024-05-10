@@ -33,7 +33,7 @@ class SearchResultModel {
 class Datum {
   final String center;
   final String title;
-  final String photographer;
+  final String? photographer;
   final List<String> keywords;
   final String nasaId;
   final String mediaType;

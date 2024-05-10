@@ -4,10 +4,14 @@ import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 import '../../data/data_sources_impl/get_epic_image_datasource_impl/get_epic_image_datasource_impl.dart';
 import '../../data/data_sources_impl/get_one_image_day_datasource_impl/get_one_image_day_datasource_impl.dart';
+import '../../data/data_sources_impl/get_search_result_datasource_impl/get_search_result_datasource_impl.dart';
 import '../../data/repositories_impl/get_epic_images_day_repositorie_impl/get_epic_images_day_repositorie_impl.dart';
 import '../../data/repositories_impl/get_image_day_repositorie_impl/get_image_day_repositorie_impl.dart';
+import '../../data/repositories_impl/repositories_impl.dart';
 import '../../domain/data_sources/data_sources.dart';
+import '../../domain/repositories/get_search_result_repositorie/get_search_result_repositorie.dart';
 import '../../domain/repositories/repositories.dart';
+import '../../use_cases/get_search_result_use_case/get_search_result_use_case.dart';
 import '../../use_cases/use_case.dart';
 import 'epic_image_bloc/epic_image_bloc.dart';
 
@@ -21,6 +25,9 @@ void setupLocator() {
   locator.registerLazySingleton<GetEpicImageDataSource>(
       () => GetEpicImageDataSourceImpl());
 
+  locator.registerLazySingleton<GetSearchResultDataSource>(
+      () => GetSearchResultDataSourceImpl());
+
   //? Repositories
   locator.registerLazySingleton<GetImageDayRepositorie>(() =>
       GetImageDayRepositorieImpl(
@@ -29,6 +36,10 @@ void setupLocator() {
   locator.registerLazySingleton<GetEpicImagesDayRepositorie>(() =>
       GetEpicImagesDayRepositorieImpl(
           datasource: locator<GetEpicImageDataSource>()));
+
+  locator.registerLazySingleton<GetSearchResultRepositorie>(() =>
+      GetSearchResultRepositorieImpl(
+          datasource: locator<GetSearchResultDataSource>()));
 
   //? UseCases
   locator.registerLazySingleton<GetImageDayUseCase>(
@@ -43,12 +54,21 @@ void setupLocator() {
     ),
   );
 
+  locator.registerLazySingleton<GetSearchResultUseCaseResult>(
+    () => GetSearchResultUseCaseImpl(
+      getSearchResultRepositorie: locator<GetSearchResultRepositorie>(),
+    ),
+  );
+
   //? Blocs
   locator.registerLazySingleton<MenuPrincipalBloc>(() =>
       MenuPrincipalBloc(getImageDayUseCase: locator<GetImageDayUseCase>()));
 
   locator.registerLazySingleton<EpicImageBloc>(
       () => EpicImageBloc(getEpicImageUseCase: locator<GetEpicImageUseCase>()));
+
+  locator.registerLazySingleton<SearchResultBloc>(() => SearchResultBloc(
+      getSearchResultUseCaseResult: locator<GetSearchResultUseCaseResult>()));
 
   //? Cubits
   locator.registerLazySingleton<ImagesMenuPrincipalCubit>(
@@ -59,6 +79,9 @@ void setupLocator() {
 
   locator.registerLazySingleton<TextMaxLinesCubit>(() => TextMaxLinesCubit());
   locator.registerLazySingleton<MoreTextCubit>(() => MoreTextCubit());
+
+  locator.registerLazySingleton<BotonSearchKeywordCubit>(
+      () => BotonSearchKeywordCubit());
 
   //? Services
   //? Controller

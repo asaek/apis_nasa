@@ -37,6 +37,12 @@ class BlocsProviders extends StatelessWidget {
         BlocProvider<EpicImageBloc>(
           create: (BuildContext context) => locator<EpicImageBloc>(),
         ),
+        BlocProvider<SearchResultBloc>(
+          create: (BuildContext context) => locator<SearchResultBloc>(),
+        ),
+        BlocProvider<BotonSearchKeywordCubit>(
+          create: (BuildContext context) => locator<BotonSearchKeywordCubit>(),
+        ),
       ],
       child: const MyApp(),
     );

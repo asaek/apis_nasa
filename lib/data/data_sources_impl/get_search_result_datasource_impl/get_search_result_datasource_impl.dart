@@ -4,29 +4,34 @@ import '../../../domain/data_sources/data_sources.dart';
 import '../../models/search_result_model/search_result_model.dart';
 
 class GetSearchResultDataSourceImpl extends GetSearchResultDataSource {
-  late final Dio dio;
+  // late final Dio dio;
   GetSearchResultDataSourceImpl() {
-    dio = Dio(
-      BaseOptions(
-        baseUrl: 'https://images-api.nasa.gov/search',
-        // queryParameters: {
-        //   'keyword': parameters,
-        //   'media_type': 'image',
-        // },
-      ),
-    );
+    // dio = Dio(
+    //   BaseOptions(
+    //     baseUrl: 'https://images-api.nasa.gov/search/',
+    //   ),
+    // );
   }
 
   @override
   Future<List<SearchResultEntity>> getSearchResult(
       {required String parameters}) async {
+    final Dio dio = Dio(
+      BaseOptions(
+        baseUrl: 'https://images-api.nasa.gov/search',
+        queryParameters: {
+          'keywords': parameters,
+          'media_type': 'image',
+          // 'api_key': Environment.nasaDbKey,
+        },
+      ),
+    );
+
     try {
-      final response = await dio.get('', queryParameters: {
-        'keyword': parameters,
-        'media_type': 'image',
-      });
+      final Response<dynamic> response = await dio.get('');
       if (response.statusCode == 200) {
         List<SearchResultEntity> searchResultEntity = [];
+
         final List<SearchResultModel> searchResultModel =
             (response.data['collection']['items'] as List)
                 .map((e) => SearchResultModel.fromJson(e))
@@ -56,6 +61,7 @@ class GetSearchResultDataSourceImpl extends GetSearchResultDataSource {
         ];
       }
     } catch (e) {
+      print(e);
       return [
         SearchResultEntity(
           center: null,
