@@ -1,6 +1,6 @@
 part of 'menu_principal_bloc.dart';
 
-sealed class MenuPrincipalState extends Equatable {
+class MenuPrincipalState extends Equatable {
   const MenuPrincipalState();
 
   @override
@@ -17,4 +17,12 @@ final class MenuPrincipalLoaded extends MenuPrincipalState {
 
   @override
   List<Object> get props => [images];
+}
+
+final class MenuPrincipalError extends MenuPrincipalState {
+  final String error;
+  const MenuPrincipalError({required this.error});
+
+  @override
+  List<Object> get props => [error];
 }

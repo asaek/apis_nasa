@@ -18,9 +18,15 @@ class MenuPrincipalBloc extends Bloc<MenuPrincipalEvent, MenuPrincipalState> {
       MenuPrincipalEvent event, Emitter<MenuPrincipalState> emit) async {
     emit(MenuPrincipalLoading());
     final List<ImageDayEntitie> imagesNew =
-        await getImageDayUseCase.callGetOneImage(cantidadImages: 5);
+        await getImageDayUseCase.callGetOneImage(cantidadImages: 3);
+    print(imagesNew);
 
-    emit(MenuPrincipalLoaded(images: imagesNew));
+    if (imagesNew[0].error != null) {
+      emit(MenuPrincipalError(error: imagesNew[0].error!));
+    }
+    if (imagesNew[0].error == null) {
+      emit(MenuPrincipalLoaded(images: imagesNew));
+    }
   }
 
   void loadMenuImagesPrincipal() async {

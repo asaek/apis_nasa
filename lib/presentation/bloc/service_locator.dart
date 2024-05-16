@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 import 'package:nasa_apis/presentation/bloc/blocs.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -16,14 +17,21 @@ import '../../use_cases/use_case.dart';
 import 'epic_image_bloc/epic_image_bloc.dart';
 
 GetIt locator = GetIt.instance;
-
+Dio dio = Dio();
 void setupLocator() {
+  //? Dio
+  // Register Dio
+  // Register Dio if not already registered
+  if (!locator.isRegistered<Dio>()) {
+    locator.registerLazySingleton<Dio>(() => Dio());
+  }
+
   //? DataSources
   locator.registerLazySingleton<GetOneImageDayDataSource>(
       () => GetOneImageDayDataSourceImpl());
 
   locator.registerLazySingleton<GetEpicImageDataSource>(
-      () => GetEpicImageDataSourceImpl());
+      () => GetEpicImageDataSourceImpl(dio: locator<Dio>()));
 
   locator.registerLazySingleton<GetSearchResultDataSource>(
       () => GetSearchResultDataSourceImpl());

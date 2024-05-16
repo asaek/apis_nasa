@@ -59,7 +59,7 @@ class GetOneImageDayDataSourceImpl implements GetOneImageDayDataSource {
         ImageDayEntitie(
           title: null,
           url: null,
-          error: Errores.errorServidor,
+          error: '${Errores.errorServidor} error: ${e.toString()}',
           date: null,
           explanation: null,
           hdurl: null,

@@ -6,21 +6,17 @@ import '../../../domain/entities/entities.dart';
 import '../../bloc/blocs.dart';
 import '../pages.dart';
 
-List<String> titulos = [
-  "APOD",
-  "EPIC",
-  "Search",
-  "Imagen 4",
-  "Imagen 5",
-];
+// List<String> titulos = [
+//   "APOD",
+//   "EPIC",
+//   "Search",
+// ];
 
-List<String> rutas = [
-  ApiUnageDayPage.routerName,
-  EpicImage.routerName,
-  SearchPage.routerName,
-  "Imagen 4",
-  "Imagen 5",
-];
+// List<String> rutas = [
+//   ApiUnageDayPage.routerName,
+//   EpicImage.routerName,
+//   SearchPage.routerName,
+// ];
 
 class HomePage extends StatelessWidget {
   static const routerName = '/HomePage';
@@ -48,6 +44,17 @@ class _Listview extends StatefulWidget {
 }
 
 class _ListviewState extends State<_Listview> {
+  List<String> titulos = [
+    "APOD",
+    "EPIC",
+    "Search",
+  ];
+
+  List<String> rutas = [
+    ApiUnageDayPage.routerName,
+    EpicImage.routerName,
+    SearchPage.routerName,
+  ];
   @override
   void initState() {
     context.read<MenuPrincipalBloc>().loadMenuImagesPrincipal();
@@ -72,12 +79,21 @@ class _ListviewState extends State<_Listview> {
                 return _ItemList(
                   image: state.images[index],
                   index: index,
+                  ruta: rutas[index],
+                  titulos: titulos[index],
                 );
               },
             );
           }
+
+          if (state is MenuPrincipalError) {
+            return Center(
+              child: Text(state.error),
+            );
+          }
+
           return const Center(
-            child: Text("Error Desconocido"),
+            child: Text("Hola que hace"),
           );
         },
       ),
@@ -88,7 +104,11 @@ class _ListviewState extends State<_Listview> {
 class _ItemList extends StatelessWidget {
   final ImageDayEntitie image;
   final int index;
+  final String ruta;
+  final String titulos;
   const _ItemList({
+    required this.titulos,
+    required this.ruta,
     required this.image,
     required this.index,
   });
@@ -101,7 +121,8 @@ class _ItemList extends StatelessWidget {
         BlendMode.softLight,
       ),
       child: InkWell(
-        onTap: () => context.push(rutas[index]),
+        key: Key('item_$index'),
+        onTap: () => context.push(ruta),
         child: Container(
           height: 200,
           margin: const EdgeInsets.all(5),

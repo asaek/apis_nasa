@@ -5,26 +5,34 @@ import 'package:nasa_apis/domain/entities/entities.dart';
 import '../../../config/constants/environments.dart';
 import '../../../domain/data_sources/data_sources.dart';
 
-const endPoint = 'https://epic.gsfc.nasa.gov/api/natural/date/2015-11-20';
+const endPoint = 'https://epic.gsfc.nasa.gov/api/natural/date/';
 
 class GetEpicImageDataSourceImpl extends GetEpicImageDataSource {
-  GetEpicImageDataSourceImpl();
+  Dio dio;
+  GetEpicImageDataSourceImpl({required this.dio});
 
   @override
   Future<List<EpicImageEntity>> getEpicImage({required DateTime dia}) async {
-    final Dio dio = Dio(
-      BaseOptions(
-        baseUrl: 'https://epic.gsfc.nasa.gov/api/natural/date/',
-        queryParameters: {
-          'api_key': Environment.nasaDbKey,
-        },
-      ),
-    );
+    // dio = Dio(
+    //   BaseOptions(
+    //     baseUrl: 'https://epic.gsfc.nasa.gov/api/natural/date/',
+    //     queryParameters: {
+    //       'api_key': Environment.nasaDbKey,
+    //     },
+    //   ),
+    // );
+
     try {
       final String formattedDate =
           '${dia.year}-${dia.month.toString().padLeft(2, '0')}-${dia.day.toString().padLeft(2, '0')}';
 
-      final Response<dynamic> response = await dio.get(formattedDate);
+      final Response<dynamic> response = await dio.get(
+        '$endPoint$formattedDate',
+        queryParameters: {
+          'api_key': Environment.nasaDbKey,
+        },
+      );
+
       print(response);
 
       if (response.statusCode == 200) {
